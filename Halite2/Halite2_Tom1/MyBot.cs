@@ -45,7 +45,9 @@ namespace Halite2
                             if (!gameMap.GetAllPlanets().Where(p => !p.Value.IsOwned()).Any())  // no unowned planets
                             {
                                 // get the closest planet owned by me
-                                Planet newPlanet = gameMap.GetAllPlanets().OrderBy(p => p.Value.GetDistanceTo(ship)).First(p => p.Value.GetOwner() != ship.GetOwner()).Value;
+                                Planet newPlanet = gameMap.GetAllPlanets().OrderBy(p => p.Value.GetDistanceTo(ship)).FirstOrDefault(p => p.Value.GetOwner() != ship.GetOwner()).Value;
+                                if (newPlanet == null)
+                                    break;
                                 int targetShipId = newPlanet.GetDockedShips().First();
                                 int ownerId = newPlanet.GetOwner();
 
